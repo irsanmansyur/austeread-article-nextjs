@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const { data } = await axios.get<{
     page: { current_page: number; first_page?: number; next_page: number; last_page?: number; previous_page: number };
     result: AppInterface.Article[];
-  }>(process.env.BASE_API + "getNewsByCategory", { params: { ...(date && { date }), page, limit, category } });
+  }>(process.env.NEXT_PUBLIC_BASE_API + "getNewsByCategory", { params: { ...(date && { date }), page, limit, category } });
 
   res.status(200).json({
     ...data,

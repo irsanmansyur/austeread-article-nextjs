@@ -10,7 +10,14 @@ type Props = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> &
   image?: string;
   children: ReactNode;
 };
-export default function SeoLayout({ image, keywords = "austeread, product austeread, article austeread, news austeread", children, title, descrtiption: desc, ...props }: Props) {
+export default function SeoLayout({
+  image,
+  keywords = "austeread, product austeread, article austeread, news austeread",
+  children,
+  title,
+  descrtiption: desc = "",
+  ...props
+}: Props) {
   const descrtiption = desc
     .replaceAll(/(<([^>]+)>)/gi, "")
     .replace(/(\r\n|\n|\r)/gm, "")
