@@ -18,8 +18,8 @@ export default function SeoLayout({
   descrtiption: desc = "",
   ...props
 }: Props) {
-  const descrtiption = desc
-    .replaceAll(/(<([^>]+)>)/gi, "")
+  const descrtiption = (desc + "")
+    .replace(/(<([^>]+)>)/gi, "")
     .replace(/(\r\n|\n|\r)/gm, "")
     .substring(0, 160);
   const { pathname } = useRouter();
