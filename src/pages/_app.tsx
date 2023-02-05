@@ -7,15 +7,13 @@ import { configure } from "axios-hooks";
 import LRU from "lru-cache";
 import axios from "axios";
 import BaseLayout from "@/layouts/base-layout";
-import NotFound from "@/components/error/not-found";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = "http://149.102.136.93:3023/api/";
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_BASE_API;
 const axx = axios.create({
-  baseURL: "http://149.102.136.93:3023/api/",
+  baseURL: process.env.NEXT_PUBLIC_BASE_API,
   withCredentials: true,
 });
-
 const cache = new LRU({ max: 10 });
 configure({ axios: axx, cache });
 

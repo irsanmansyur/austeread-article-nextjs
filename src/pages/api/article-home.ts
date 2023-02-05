@@ -6,7 +6,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 type Data = AppInterface.ArticleGroupKategori[];
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const { data } = await axios.get<AppInterface.ArticleGroupKategori[]>(process.env.BASE_API + "getNews");
+  const { data } = await axios.get<AppInterface.ArticleGroupKategori[]>(process.env.NEXT_PUBLIC_BASE_API + "getNews");
   res.status(200).json(
     data.map((newsArt) => {
       return {
