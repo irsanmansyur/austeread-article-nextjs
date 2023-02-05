@@ -9,7 +9,7 @@ export default function ButtonCustom({ size = "normal", className, children, ...
     <button
       {...props}
       className={twMerge(
-        `px-2 sm:px-3 py-0 sm:py-2 font-medium text-center text-white bg-primary rounded-lg hover:bg-primary/80 focus:ring focus:outline-none focus:ring-primary/70 dark:bg-primary dark:hover:bg-primary dark:focus:ring-primary/80 relative`,
+        `px-2 sm:px-3 py-0 sm:py-2 font-medium text-center text-white bg-primary rounded-lg hover:bg-primary/80 focus:ring focus:outline-none focus:ring-primary/70 dark:bg-primary dark:hover:bg-primary dark:focus:ring-primary/80 relative overflow-hidden whitespace-nowrap`,
         className
       )}
     >

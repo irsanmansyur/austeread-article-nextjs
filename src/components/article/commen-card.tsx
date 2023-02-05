@@ -7,21 +7,21 @@ type Props = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> & {
 };
 export default function CommentCard({ setReplay, className = "", ...props }: Props) {
   return (
-    <article {...props} className={twMerge("relative py-5 px-6 sm:py-6  text-base bg-white rounded-lg dark:bg-gray-900", className)}>
+    <article {...props} className={twMerge("relative py-5 px-6 sm:py-6 text-base bg-white rounded-lg ", className)}>
       <footer className="flex justify-between items-center mb-2 relative">
         <div className="flex items-center">
-          <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
+          <p className="inline-flex items-center mr-3 text-sm text-gray-900">
             <Image className="mr-2 w-6 h-6 rounded-full" width={40} height={40} src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Jese Leos" />
             Jese Leos
           </p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-sm text-gray-600">
             <time dateTime="2022-02-12" title="February 12th, 2022">
               Feb. 12, 2022
             </time>
           </p>
         </div>
       </footer>
-      <p className="text-gray-500 dark:text-gray-400">Much appreciated! Glad you liked it ☺️</p>
+      <p className="text-gray-500">Much appreciated! Glad you liked it ☺️</p>
       <div className="flex items-center mt-4 space-x-4">
         <button className="flex gap-2 items-center">
           <Image width={20} height={20} src="/icons/like.png" className="!w-[17px] !h-[15px]" alt="like" /> <span>16</span>

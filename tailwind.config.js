@@ -13,9 +13,9 @@ module.exports = {
       },
       fontFamily: {
         poppin: ["Poppins", "sans-serif"],
-        garnet: ["garnett", "Poppins"],
-        GarnettLight: ["garnett-ligth", "Poppins"],
-        GarnettMedium: ["garnett-medium", "Poppins"],
+        garnet: ["Garnett", "Garnett-Medium"],
+        "Garnett-Light": "Garnett-Light",
+        "Garnett-Bold": "Garnett-Bold",
         PublicSansRegular: ["PublicSans Regular", "Poppins"],
         PublicSansBlack: ["PublicSans Black", "Poppins"],
         PublicSansBoldItalic: ["PublicSansboldItalic", "Poppins"],

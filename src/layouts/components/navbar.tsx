@@ -25,8 +25,8 @@ export default function Navbar() {
             </Link>
           </div>
           <Link className="navbar-brand text-[29px] sm:text-[38px]" href="/">
-            <span className="">auste</span>
-            <span className="font-bold ">read</span>
+            <span className="font-Garnett-Light">auste</span>
+            <span className="">read</span>
           </Link>
           <div className="flex justify-end items-center sm:w-1/3">
             <div className="hidden" id="searchForm">

@@ -38,7 +38,7 @@ const Home: NextPageWithLayout<Props> = ({ article }) => {
                   />
                 </div>
                 <small className="text-sm font-[400] italic">{`${article.tbl_news_category.name} | ${article.createdAt}`}</small>
-                <h1 className="text-4xl">{article.title}</h1>
+                <h1 className="text-4xl font-Garnett-Medium leading-normal py-2">{article.title}</h1>
                 <small className="text-xs text-gray-700 font-[400]">Write by {`${article.tbl_user.first_name}  ${article.tbl_user.last_name}`}</small>
               </div>
               <div className="article-page-body font-PublicSansLight text-sm leading-7 pt-10  text-gray-600">
