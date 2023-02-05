@@ -41,7 +41,7 @@ export default function DontMissThis() {
                           />
                           <div className="absolute inset-0 flex justify-end p-4 items-center flex-col bg-black/60">
                             <p className="text-xs">{`${highlight.tbl_news_category.name} | ${highlight.createdAt}`}</p>
-                            <h5 className="text-center mt-3">{highlight.title}</h5>
+                            <h5 className="text-center text-sm sm:text-base mt-3">{highlight.title}</h5>
                           </div>
                         </div>
                       </Link>

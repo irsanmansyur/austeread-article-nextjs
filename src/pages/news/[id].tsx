@@ -28,7 +28,14 @@ const Home: NextPageWithLayout<Props> = ({ article }) => {
             <div className="article-page">
               <div className="article-page-header">
                 <div className="-mx-2 sm:hidden mb-2">
-                  <Image alt={article.title} width={200} height={200} className="sm:!hidden" src={urlAsset("img/upload/" + article.img)} />
+                  <Image
+                    alt={article.title}
+                    width={200}
+                    height={200}
+                    style={{ height: "auto", width: "auto" }}
+                    className="sm:!hidden !w-full"
+                    src={urlAsset("img/upload/" + article.img)}
+                  />
                 </div>
                 <small className="text-sm font-[400] italic">{`${article.tbl_news_category.name} | ${article.createdAt}`}</small>
                 <h1 className="text-4xl">{article.title}</h1>

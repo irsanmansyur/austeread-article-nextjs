@@ -22,6 +22,17 @@ export default function ListGrapArticle({ result: articles, page: pg }: Props) {
   const { query } = useRouter();
 
   useEffect(() => {
+    const handleResize = () => {
+      setColsArticles(window.innerWidth < 500 ? 2 : 3);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.addEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!loading && data.result) {
       setPage(data.page);
       setPenampungArticles([...penampungArticles, ...data.result]);
