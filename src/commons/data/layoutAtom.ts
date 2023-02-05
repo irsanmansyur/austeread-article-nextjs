@@ -1,0 +1,21 @@
+import { atom } from "recoil";
+import { AppInterface } from "../interface/app";
+
+export const kategoriesAtom = atom<AppInterface.Kategori[] | null>({
+  key: "kategoriesAtom",
+  default: null,
+});
+
+export const configsAtom = atom<AppInterface.Config | null>({
+  key: "configsAtom",
+  default: null,
+});
+export const scrollInfoAtom = atom<{ top: number; height: number; to: "bottom" | "top" }>({
+  key: "scrollInfoAtom",
+  default: { top: 0, height: 0, to: "top" },
+});
+
+export const UserInfoAtom = atom<AppInterface.User | undefined>({
+  key: "userInfo",
+  default: undefined,
+});
