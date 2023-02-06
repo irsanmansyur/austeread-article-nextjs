@@ -7,6 +7,7 @@ import FooterBottom from "./footer-bottom";
 import { configsAtom, kategoriesAtom } from "@/commons/data/layoutAtom";
 import Image from "next/image";
 import { useEffect } from "react";
+import SosmedIcon from "@/components/sosmed-icon";
 
 export default function Footer({ configs, categories }: any) {
   const setCategories = useSetRecoilState(kategoriesAtom);
@@ -32,19 +33,19 @@ export default function Footer({ configs, categories }: any) {
             </p>
             <div className="flex gap-2 mt-2">
               <a className="me-4 text-reset pr-2" href={configs?.instagram} target="blank">
-                <Image width={20} height={20} className="!w-auto !h-auto" src={"/icons/instagram_white_ek2.png"} alt="Insagram" />
+                <SosmedIcon src={"/icons/instagram_white_ek2.png"} alt="Insagram" />
               </a>
               <a className="me-4 text-reset pr-2" target="blank">
-                <Image width={20} height={20} className="!w-auto !h-auto" src={"/icons/facebook_white_ek2.png"} alt="Facebook" />
+                <SosmedIcon src={"/icons/facebook_white_ek2.png"} alt="Facebook" />
               </a>
               <a className="me-4 text-reset pr-2" href={configs?.twitter} target="blank">
-                <Image width={20} height={20} className="!w-auto !h-auto" src={"/icons/twitter_white_ek2.png"} alt="Twitter" />
+                <SosmedIcon src={"/icons/twitter_white_ek2.png"} alt="Twitter" />
               </a>
               <a className="me-4 text-reset pr-2" href={`mailto:${configs?.email}`} target="blank">
-                <Image width={20} height={20} className="!w-auto !h-auto" src={"/icons/mail_white_ek2.png"} alt="Mail" />
+                <SosmedIcon src={"/icons/mail_white_ek2.png"} alt="Mail" />
               </a>
               <a className="me-4 text-reset pr-2" href={`http://wa.me/${configs?.whatsapp}`} target="blank">
-                <Image width={20} height={20} className="!w-auto !h-auto" src={"/icons/whatsapp_white_ek2.png"} alt="WhatsApp" />
+                <SosmedIcon src={"/icons/whatsapp_white_ek2.png"} alt="WhatsApp" />
               </a>
             </div>
           </div>

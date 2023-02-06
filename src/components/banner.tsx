@@ -8,7 +8,7 @@ export default function Banner({ className, ...props }: Props) {
   if (!show) return <></>;
   return (
     <div {...props} className={twMerge("container px-2 sm:px-0  relative h-[107px] bg-gray-200 justify-center", className)}>
-      <Image width={100} height={100} src="/icons/logo-white.png" alt="" className="!h-full !w-full" />
+      <Image width={100} height={100} src="/image/banner-vertical.gif" alt="" style={{ width: "auto", height: "auto" }} className="!h-full !w-full" />
       <button className="p-[1px] px-2 bg-gray-100 absolute top-[2px] right-[2px]" onClick={() => setShow(false)}>
         x
       </button>

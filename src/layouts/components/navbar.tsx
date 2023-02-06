@@ -41,7 +41,15 @@ export default function Navbar() {
             </div>
             <div className="vl" />
             <a id="showFilePanel" href="#">
-              <Image width={41} height={20} className="!w-auto !h-auto" alt="menu icon" src={"/icons/icon_menu.png"} onClick={(e) => setShow(!show)} />
+              <Image
+                width={41}
+                height={41}
+                style={{ height: "auto", width: "auto" }}
+                className="!w-8 !h-8 sm:!w-10 sm:!h-10"
+                alt="menu icon"
+                src={"/icons/icon_menu.png"}
+                onClick={(e) => setShow(!show)}
+              />
             </a>
           </div>
         </div>
