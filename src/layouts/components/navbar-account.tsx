@@ -1,10 +1,15 @@
-import { userAtom } from "@/commons/data/user-atom";
+import { UserInfoAtom } from "@/commons/data/layoutAtom";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import { useCookies } from "react-cookie";
 import { BsArrowDownShort } from "react-icons/bs";
 import { useRecoilValue } from "recoil";
+import { deleteCookie } from "cookies-next";
+import useUser from "@/commons/data/user-atom";
+
 export default function NavbarAccount() {
-  const user = useRecoilValue(userAtom);
+  const user = useRecoilValue(UserInfoAtom);
   return (
     <>
       {!user ? (
@@ -19,6 +24,9 @@ export default function NavbarAccount() {
 }
 
 const DropdownAcount = () => {
+  const { reload } = useRouter();
+  const { logoutUser } = useUser();
+
   const htmlRef = useRef<HTMLDivElement>(null);
   const [dropdwonActive, setDropdwonActive] = useState(false);
   useEffect(() => {
@@ -37,6 +45,7 @@ const DropdownAcount = () => {
   }, []);
 
   const DropDown = () => {
+    const [cookies, setCookie, removeCookie] = useCookies(["token"]);
     return (
       <div className="position absolute mt-3 left-1/2 -translate-x-1/2 border bg-white shadow z-10 rounded">
         <div className="flex flex-col">
@@ -47,9 +56,15 @@ const DropdownAcount = () => {
             Manage Newsletter
           </Link>
           <hr className="my-2" />
-          <Link href={"dd"} className="hover:bg-gray-200 py-2 px-4 text-sm">
+          <button
+            className="hover:bg-gray-200 py-2 px-4 text-sm"
+            onClick={(e) => {
+              logoutUser();
+              // reload();
+            }}
+          >
             Sign Out
-          </Link>
+          </button>
         </div>
       </div>
     );

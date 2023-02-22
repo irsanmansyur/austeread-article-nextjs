@@ -5,14 +5,17 @@ import { InputCustom } from "@/components/form/InputGroup";
 import SeoLayout from "@/layouts/seo-layout";
 import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from "@leecheuk/react-google-login";
 import Link from "next/link";
-import { ReactElement, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import { NextPageWithLayout } from "../_app";
 import ReCAPTCHA from "react-google-recaptcha";
 import ButtonCustom from "@/components/form/button";
 import AuthLayout from "@/layouts/auth-layout";
+import { useRouter } from "next/router";
+import Image from "next/image";
 type Props = {};
 const Page: NextPageWithLayout<Props> = ({ ...props }) => {
-  const { setUser } = useUser();
+  const { setUser, user } = useUser();
+  const { replace } = useRouter();
   const captchaRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const { post: postLoginForm, loading: loadingLogin, data: dataLoginRespon } = useData<AppInterface.User & { message?: string }>();
@@ -26,24 +29,32 @@ const Page: NextPageWithLayout<Props> = ({ ...props }) => {
 
     // @ts-ignore
     const token = captchaRef?.current?.getValue();
-    if (!token) return setErrorMessage("Google Captcha not valid");
+    if (!token) return setErrorMessage("Error! You must confirm you are not a robot");
 
     setErrorMessage(undefined);
-    postLoginForm("auth", { ...data, captcha_token: token })
-      .then((res) => {
-        if (res.data.message && res.data.message.includes("Incorrect")) setErrorMessage(res.data.message);
+
+    postLoginForm("login", { ...data, captcha_token: token, register_method: 1 })
+      .then((res: any) => {
+        if (res.response && res.response.status >= 400) return setErrorMessage(res.response.data.message);
         setUser(res.data);
+        replace("/");
       })
       .catch((e) => {
-        if (e.response.data.message) setErrorMessage(e.response.data.message);
+        if (e.response && e.response.data?.message) return setErrorMessage(e.message);
+        setErrorMessage(e.message);
       });
   };
+
+  useEffect(() => {
+    if (user) replace("/");
+    return () => {};
+  }, [user]);
 
   return (
     <SeoLayout title="Login Austeread" descrtiption="Welcome user" className="my-4 w-full sm:max-w-md px-3">
       <div className="header flex items-center flex-col gap-3">
         <Link href="/" className="flex items-center mb-10 text-primary">
-          <img className="" src="/icons/logo.austeread.gif" width="60px" />
+          <Image width={60} height={60} style={{ width: "auto", height: "auto" }} alt="logo austeread" className="!w-[60px]" src="/icons/logo.austeread.gif" />
         </Link>
         <h5 className="Garnett-medium font-GarnettMedium text-xl">Sign in into your account</h5>
       </div>
@@ -59,7 +70,13 @@ const Page: NextPageWithLayout<Props> = ({ ...props }) => {
           <InputCustom onChange={(e) => setData({ ...data, email: e.target.value })} label="Email" placeholder="Enter your email" className="bg-transparent" />
           <InputCustom onChange={(e) => setData({ ...data, password: e.target.value })} label="Password" placeholder="Enter your password" type={"password"} />
           <div>
-            <ReCAPTCHA ref={captchaRef} sitekey={process.env.NEXT_PUBLIC_REACT_APP_SITE_KEY ?? ""} />
+            <ReCAPTCHA
+              onChange={(e) => {
+                console.log(e);
+              }}
+              ref={captchaRef}
+              sitekey={process.env.NEXT_PUBLIC_REACT_APP_SITE_KEY ?? ""}
+            />
           </div>
           <div className="py-3">
             <ButtonCustom disabled={loadingLogin} type="submit" className="w-full" onClick={(e) => setData({ ...data, register_method: 0 })}>
@@ -90,4 +107,21 @@ const Page: NextPageWithLayout<Props> = ({ ...props }) => {
 Page.getLayout = function getLayout(page: ReactElement) {
   return <AuthLayout {...page.props}>{page}</AuthLayout>;
 };
+
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+//   const user = await userFromRequest(context.req);
+
+//   return {
+//     props: {},
+//     ...(user
+//       ? {
+//           redirect: {
+//             permanent: false,
+//             destination: "/",
+//           },
+//         }
+//       : {}),
+//   };
+// }
+
 export default Page;

@@ -52,7 +52,7 @@ const Home: NextPageWithLayout<Props> = ({ news, ...props }) => {
           <Banner />
         </div>
         {groupNews[0] && groupNews[0].articlesSort.length > 0 && (
-          <div className="all-article px-2 sm:px-0 py-5">
+          <div className="container all-article px-2 sm:px-0 py-5">
             <div className="articles-header">
               <TitleKategori text="What's on today" />
             </div>
@@ -108,7 +108,12 @@ Home.getLayout = function getLayout(page: ReactElement) {
 
 // This gets called on every request
 export async function getServerSideProps() {
-  const news = await fetch(process.env.BASE_LOCAL_API + "article-home").then((res) => res.json());
+  const news = await fetch(process.env.BASE_LOCAL_API + "article-home")
+    .then((res) => res.json())
+    .catch((e) => {
+      console.log("e");
+      return [];
+    });
   return { props: { news: news } };
 }
 export default Home;

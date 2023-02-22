@@ -6,7 +6,9 @@ import { useRecoilValue } from "recoil";
 import { scrollInfoAtom } from "@/commons/data/layoutAtom";
 import { twMerge } from "tailwind-merge";
 import { useState } from "react";
-export default function Navbar() {
+import { AppInterface } from "@/commons/interface/app";
+type Props = { user?: AppInterface.User | null };
+export default function Navbar({ user }: Props) {
   const mainInfo = useRecoilValue(scrollInfoAtom);
   const [show, setShow] = useState(false);
 

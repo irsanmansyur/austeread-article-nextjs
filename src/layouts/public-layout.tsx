@@ -1,5 +1,7 @@
 import { scrollInfoAtom } from "@/commons/data/layoutAtom";
 import { AppInterface } from "@/commons/interface/app";
+
+import { configure } from "axios-hooks";
 import React, { useRef } from "react";
 import { useSetRecoilState } from "recoil";
 import Footer from "./components/footer";
@@ -15,6 +17,7 @@ export default function PublicLayout({ children, ...props }: Props) {
 
   // untuk mendapatkan info scroll dan window main utama
   const setScrollInfo = useSetRecoilState(scrollInfoAtom);
+
   const handleScroll = (event: any) => {
     setScrollInfo((inf) => {
       return {
@@ -34,7 +37,7 @@ export default function PublicLayout({ children, ...props }: Props) {
         scroll-region="true"
       >
         <div>
-          <Navbar />
+          <Navbar user={null} />
           <main {...props}>{children}</main>
         </div>
         <Footer categories={props.categories} configs={props.configs} />

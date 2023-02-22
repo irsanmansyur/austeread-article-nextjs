@@ -56,6 +56,18 @@ export namespace AppInterface {
   export interface Kategori extends baseMongo {
     name: string;
   }
+  export interface Comment extends baseMongo {
+    listIdReplyComment: number;
+    listIdLikes: number;
+    id_person: number;
+    id_news: number;
+    comment: string;
+    createdAt: string;
+    tbl_person: {
+      fullname: string;
+      img: string;
+    };
+  }
 
   export interface HightLight {
     title: string;

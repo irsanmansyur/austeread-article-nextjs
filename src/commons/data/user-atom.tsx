@@ -1,41 +1,45 @@
 import { useState } from "react";
-import { useCookies } from "react-cookie";
-import { atom, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { AppInterface } from "../interface/app";
-import { base64Regex } from "../regex/base64";
 import { UserInfoAtom } from "./layoutAtom";
-
-export const userAtom = atom({
-  key: "userAtom",
-  default: null,
-});
+import { setCookie, deleteCookie, getCookie } from "cookies-next";
 
 export default function useUser() {
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [user, setUser] = useRecoilState(UserInfoAtom);
   const [loading, setLoading] = useState(false);
+  const tokenJwt = getCookie("token");
+
   const updateUser = (user: AppInterface.User) => {
     setUser(user);
-    setCookie("token", user.token);
+    setCookie("token", user.token, {
+      maxAge: 60 * 60 * 12,
+    });
+  };
+  const logoutUser = () => {
+    setCookie("token", "", {
+      maxAge: 0,
+    });
+
+    deleteCookie("token", {
+      sameSite: "none",
+    });
+    setUser(null);
   };
 
   const setUserByToken = (tokenJwt: string) => {
     setLoading(true);
     const token = (tokenJwt as string).split(".")[1];
-    if (!base64Regex.test(token)) {
-      setLoading(false);
-      removeCookie("token");
-      return;
+    try {
+      const user = JSON.parse(atob(token));
+      setUser({ ...user, token: tokenJwt });
+    } catch (error) {
+      deleteCookie("token");
+      setUser(null);
     }
-
-    const user = JSON.parse(atob(token));
-    setUser({ ...user, token: tokenJwt });
     setLoading(false);
   };
 
-  if (!user && cookies.token) {
-    setUserByToken(cookies.token);
-  }
+  if (!user && loading == false && tokenJwt) setUserByToken(tokenJwt + "");
 
-  return { user, setUser: updateUser, loading };
+  return { user, setUser: updateUser, loading, logoutUser };
 }

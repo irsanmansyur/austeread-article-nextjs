@@ -3,19 +3,8 @@ import { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { AppInterface } from "@/commons/interface/app";
-import { configure } from "axios-hooks";
-import LRU from "lru-cache";
 import axios from "axios";
 import BaseLayout from "@/layouts/base-layout";
-
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_BASE_API;
-const axx = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_API,
-  withCredentials: true,
-});
-const cache = new LRU({ max: 10 });
-configure({ axios: axx, cache });
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -40,16 +29,28 @@ export default function MyApp({ Component, pageProps, configProps, categories = 
   return <BaseLayout>{layout}</BaseLayout>;
 }
 
-MyApp.getInitialProps = async () => {
-  if (configPropsCache) {
-    return { configProps: configPropsCache, categories: categoriesCache };
+MyApp.getInitialProps = async ({ ctx }: any) => {
+  const cookies = ctx.req ? ctx.req.cookies : null;
+  let user = null;
+  if (cookies && cookies.token) {
+    const token = (cookies.token as string).split(".")[1];
+    try {
+      user = JSON.parse(atob(token));
+    } catch (error) {}
   }
 
-  const { data } = await axios.get<{ data: AppInterface.Config }>("config");
-  const { data: categories } = await axios.get("getAllCategory");
+  if (configPropsCache) {
+    return { configProps: configPropsCache, categories: categoriesCache, user };
+  }
 
-  configPropsCache = data;
-  categoriesCache = categories;
+  try {
+    const { data } = await axios.get<{ data: AppInterface.Config }>(process.env.NEXT_PUBLIC_BASE_API + "config");
+    const { data: categories } = await axios.get(process.env.NEXT_PUBLIC_BASE_API + "getAllCategory");
+    configPropsCache = data;
+    categoriesCache = categories;
 
-  return { configProps: data, categories };
+    return { configProps: data, categories, user };
+  } catch (error) {
+    return { configProps: {}, categories: [], user };
+  }
 };

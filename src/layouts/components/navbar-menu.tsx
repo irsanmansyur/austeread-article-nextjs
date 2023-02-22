@@ -1,14 +1,17 @@
-import { configsAtom, kategoriesAtom } from "@/commons/data/layoutAtom";
+import { configsAtom, kategoriesAtom, UserInfoAtom } from "@/commons/data/layoutAtom";
+import useUser from "@/commons/data/user-atom";
 import SosmedIcon from "@/components/sosmed-icon";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useRecoilValue } from "recoil";
 
 export default function NavbarMenu({ show, setShow }: any) {
   const configs = useRecoilValue(configsAtom);
+  const user = useRecoilValue(UserInfoAtom);
   const kategories = useRecoilValue(kategoriesAtom);
   const sidebarRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       // @ts-ignore
@@ -61,9 +64,17 @@ export default function NavbarMenu({ show, setShow }: any) {
                 <li className="font-[700] text-2xl" onClick={() => setShow(false)}>
                   <Link href={`/search`}>Search</Link>
                 </li>
-                <li className="font-[700] text-2xl" onClick={() => setShow(false)}>
-                  <Link href={`/auth/login`}>Sign in</Link>
-                </li>
+                {!user ? (
+                  <li className="font-[700] text-2xl" onClick={() => setShow(false)}>
+                    <Link href={`/auth/login`}>Sign in</Link>
+                  </li>
+                ) : (
+                  <li className="font-[700] text-2xl" onClick={() => setShow(false)}>
+                    <Link href={`/auth/login`}>
+                      <span>Account</span>
+                    </Link>
+                  </li>
+                )}
               </ul>
               <div className="flex gap-2 mt-2 justify-center border-t border-light pt-4">
                 <a className="me-4 text-reset pr-2" href={configs?.instagram} target="blank">

@@ -1,0 +1,22 @@
+Jadi nanti service yang update itu :
+Backend:
+    Service Quiz
+    Quiz Transactions
+    Service Games
+    Transactions
+    Log Dashboard
+    Service Gateway
+
+    + qqnumber-service
+
+Database:
+    Update stored Procedure
+    Update Transaction table
+
+    + 
+
+Frontend:
+    Dashboard
+    Frontend Service
+
+Kurang lebih ini ya yg akan di update service2 nya?. Klo dari gw 3 jam.

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ReactElement, useRef } from "react";
+import { ReactElement } from "react";
 import PublicLayout from "@/layouts/public-layout";
 import Banner from "@/components/banner";
 import { AppInterface } from "@/commons/interface/app";
@@ -13,9 +13,16 @@ import SeoLayout from "@/layouts/seo-layout";
 import useAxios from "axios-hooks";
 import axios from "axios";
 import RelatedArticle from "@/components/article/related-article";
+import useUser from "@/commons/data/user-atom";
+import LikeArticle from "@/components/article/like-article";
+import FormComment from "@/components/article/comment/form-comment";
+import CommentArticle from "@/components/article/comment/comment";
 
 type Props = { article: AppInterface.Article };
 const Home: NextPageWithLayout<Props> = ({ article }) => {
+  // mengambil data commentar
+  const [{ data: commentsData, loading: commentLoading }] = useAxios<{ data: any[] }>(`comment/${article.id}`);
+  const { user } = useUser();
   const [{ data: latestArticles, loading: loadLatest }] = useAxios<AppInterface.Article[]>({
     url: "getlatestNews",
   });
@@ -47,12 +54,7 @@ const Home: NextPageWithLayout<Props> = ({ article }) => {
               </div>
               <div className="article-page-footer py-5">
                 <div className="flex justify-between items-end">
-                  <div className="inline-flex items-center gap-2 text-gray-600">
-                    <div className="p-3 bg-gray-200 rounded-full">
-                      <Image width={20} height={20} className="!w-auto !h-auto" alt="path_ek26" src="/icons/like.png" />
-                    </div>
-                    {article.like} Likes
-                  </div>
+                  <LikeArticle article={article} />
                   <div className="">
                     <h6 className="PublicSans-regular">Share :</h6>
                     <div className="flex gap-2">
@@ -70,35 +72,7 @@ const Home: NextPageWithLayout<Props> = ({ article }) => {
                   </div>
                 </div>
                 <hr className="my-6" />
-                <div id="comments">
-                  <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Comments (20)</h2>
-                  </div>
-                </div>
-                <form className="mb-6">
-                  <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200">
-                    <label htmlFor="comment" className="sr-only">
-                      Your comment
-                    </label>
-                    <textarea
-                      id="comment"
-                      rows={6}
-                      className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none"
-                      placeholder="Write a comment..."
-                      required
-                      defaultValue={""}
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary rounded-lg focus:ring-4 focus:ring-primary dark:focus:ring-primary hover:bg-primary/80"
-                  >
-                    Post comment
-                  </button>
-                </form>
-                <CommentParent />
-                <CommentParent />
-                <CommentParent />
+                <CommentArticle article={article} />
               </div>
             </div>
           </div>

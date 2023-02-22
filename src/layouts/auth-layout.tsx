@@ -1,5 +1,5 @@
 import { scrollInfoAtom } from "@/commons/data/layoutAtom";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useSetRecoilState } from "recoil";
 
 import FooterBottom from "./components/footer-bottom";
@@ -9,9 +9,6 @@ type Props = React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElem
 };
 export default function AuthLayout({ children, ...props }: Props) {
   const parentMain = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    return () => {};
-  }, []);
 
   // untuk mendapatkan info scroll dan window main utama
   const setScrollInfo = useSetRecoilState(scrollInfoAtom);
