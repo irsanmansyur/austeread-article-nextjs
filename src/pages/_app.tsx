@@ -30,7 +30,7 @@ export default function MyApp({ Component, pageProps, configs, categories = [] }
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
 
-  const layout = getLayout(<Component {...pageProps} configs={configsPropsCache} categories={categoriesCache} />);
+  const layout = getLayout(<Component {...pageProps} configs={configs} categories={categories} />);
   return (
     <>
       {Component.requiresAuth && (
@@ -48,7 +48,7 @@ export default function MyApp({ Component, pageProps, configs, categories = [] }
           />
         </Head>
       )}
-      <AuthProvider categories={categoriesCache} configs={configsPropsCache}>
+      <AuthProvider categories={categories} configs={configs}>
         <BaseLayout>{layout}</BaseLayout>
       </AuthProvider>
     </>
@@ -59,11 +59,11 @@ MyApp.getInitialProps = async ({ ctx }: any) => {
   let configs = {},
     categories = [];
   try {
-    if (!configsPropsCache) {
+    if (!configsPropsCache || Object.keys(configsPropsCache).length < 1) {
       const { data: configsData } = await api.get<{ data: AppInterface.Config }>("config");
       configs = configsData;
     }
-    if (!categoriesCache) {
+    if (!categoriesCache || categories.length < 1) {
       const { data: categoriesData } = await api.get("getAllCategory");
       categories = categoriesData;
     }
