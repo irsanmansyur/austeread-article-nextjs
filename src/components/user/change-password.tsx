@@ -11,11 +11,11 @@ export default function ChangePassword() {
       <span className="text-sm text-primary-others cursor-pointer" onClick={() => setShow(true)}>
         Change password
       </span>
-      <ModalBase open={show} setIsOpen={setShow} classParent="bg-black/60 backdrop-blur-sm" className="relative w-full p-2">
+      <ModalBase open={show} setIsOpen={setShow} classParent="bg-black/60 backdrop-blur-sm" className="relative w-full sm:max-w-2xl  p-2">
         <button className="absolute right-2 top-0 -translate-y-full outline-none" onClick={() => setShow(false)}>
-          <Image width={100} height={100} style={{ width: "auto", height: "auto" }} src="/static/icons/icon_close_white.png" alt="" />
+          <Image width={100} height={100} style={{ width: "auto", height: "auto" }} src="/icons/icon_close_white.png" alt="" />
         </button>
-        <form autoComplete="off" className="bg-white px-2 py-10 relative space-y-7">
+        <form autoComplete="off" className="bg-white sm:rounded sm:shadow sm:px-6 px-2 py-10 relative space-y-7">
           <h3 className="text-center font-garnet font-bold">Change Password</h3>
           <InputCustom
             type={"password"}

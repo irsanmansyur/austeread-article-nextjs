@@ -1,9 +1,8 @@
-import { kategoriesAtom } from "@/commons/data/layoutAtom";
+import { useAuth } from "@/contexts/auth";
 import Link from "next/link";
-import { useRecoilValue } from "recoil";
 
 export default function FooterCategoriesLink() {
-  const kategories = useRecoilValue(kategoriesAtom);
+  const { categories: kategories } = useAuth();
   return (
     <div>
       <h6 className="uppercase font-bold mb-4">

@@ -41,7 +41,6 @@ const DropdownAcount = ({ user }: { user: AppInterface.User }) => {
   }, []);
 
   const DropDown = () => {
-    const [cookies, setCookie, removeCookie] = useCookies(["token"]);
     return (
       <div className="position absolute mt-3 left-1/2 -translate-x-1/2 border bg-white shadow z-10 rounded">
         <div className="flex flex-col">
