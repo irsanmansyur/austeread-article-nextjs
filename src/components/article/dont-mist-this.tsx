@@ -1,6 +1,6 @@
 import { urlAsset } from "@/commons/helpers";
 import { AppInterface } from "@/commons/interface/app";
-import useAxios from "axios-hooks";
+import { useAuth } from "@/contexts/auth";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useRef } from "react";
@@ -9,7 +9,7 @@ import { SkeletonNews } from "./skeleton-card";
 
 export default function DontMissThis() {
   const parentScroll = useRef<HTMLDivElement>(null);
-
+  const { useAxios } = useAuth();
   const [{ data: newsHightLight, loading: loadingNewsHightLight, error }] = useAxios<{ data: AppInterface.HightLight[] }>("news/highlight");
 
   return (

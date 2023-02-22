@@ -1,7 +1,7 @@
 import { AppInterface } from "@/commons/interface/app";
 import InputError from "@/components/form/InputError";
 import { useAuth } from "@/contexts/auth";
-import useAxios, { RefetchFunction } from "axios-hooks";
+import { RefetchFunction } from "axios-hooks";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
@@ -11,6 +11,8 @@ type Props = {
   reFetchComments: RefetchFunction<any, { data: any[] }>;
 };
 export default function FormComment({ article, reFetchComments }: Props) {
+  const { useAxios } = useAuth();
+
   const [dataFormComment, setDataFormComment] = useState({
     id_news: article.id,
     comment: "",

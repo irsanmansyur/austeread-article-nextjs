@@ -1,6 +1,6 @@
 import { urlAsset } from "@/commons/helpers";
 import { AppInterface } from "@/commons/interface/app";
-import useAxios from "axios-hooks";
+import { useAuth } from "@/contexts/auth";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useRef } from "react";
@@ -10,6 +10,7 @@ type Props = {
   category: { name: string };
 };
 export default function RelatedArticle({ category }: Props) {
+  const { useAxios } = useAuth();
   const [{ data: relatedArticle, loading: loadRelated, error }, refetch] = useAxios<{ category_name: string; page: object; result: AppInterface.Article[] }>({
     url: "getNewsByCategory",
     params: { page: 1, limit: 3, category: category.name },

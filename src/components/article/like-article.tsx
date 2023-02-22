@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AppInterface } from "@/commons/interface/app";
-import useAxios from "axios-hooks";
 import { useAuth } from "@/contexts/auth";
 
 type Props = { article: AppInterface.Article };
@@ -34,6 +33,8 @@ const LikeArticleNotLogin = ({ article }: { article: AppInterface.Article }) => 
   );
 };
 const LikeArticleIsUser = ({ article }: { article: AppInterface.Article }) => {
+  const { useAxios } = useAuth();
+
   const [userLike, setUserLike] = useState(false);
   const [{ data, loading }] = useAxios(`getLikeNewsByPerson/${article.id}`);
   const [{ data: putData, loading: putLoading }, executePut] = useAxios(

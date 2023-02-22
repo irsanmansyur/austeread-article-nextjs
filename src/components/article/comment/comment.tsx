@@ -1,11 +1,12 @@
 import { AppInterface } from "@/commons/interface/app";
-import useAxios from "axios-hooks";
+import { useAuth } from "@/contexts/auth";
 import React from "react";
 import CommentParent from "../commen-parent";
 import FormComment from "./form-comment";
 import CommentCountLoader from "./loader/comment-count.loader";
 
 export default function CommentArticle({ article }: { article: AppInterface.Article }) {
+  const { useAxios } = useAuth();
   // mengambil data commentar
   const [{ data: commentsData, loading: commentLoading }, reFetchComments] = useAxios<{ data: any[] }>(`comment/${article.id}`);
 

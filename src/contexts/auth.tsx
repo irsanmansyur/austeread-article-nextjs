@@ -5,6 +5,7 @@ import Loader from "@/components/loader";
 //api here is an axios instance which has the baseURL set according to the env.
 import api from "@/api";
 import { AppInterface } from "@/commons/interface/app";
+import { makeUseAxios, UseAxios } from "axios-hooks";
 
 export type LoginType = {
   email: string;
@@ -14,7 +15,9 @@ export type LoginType = {
 };
 
 type authContextType = {
+  api: typeof api;
   user?: AppInterface.User;
+  useAxios: UseAxios;
   login: (data: LoginType) => void;
   logout: () => void;
   isAuthenticated: boolean;
@@ -24,9 +27,13 @@ type authContextType = {
 };
 const authContextDefaultValues: authContextType = {
   loading: true,
+  api,
   isAuthenticated: false,
   login: (data) => {},
   logout: () => {},
+  useAxios: makeUseAxios({
+    axios: api,
+  }),
 };
 
 const AuthContext = createContext<authContextType>(authContextDefaultValues);
@@ -88,8 +95,11 @@ export const AuthProvider = ({ children, categories, configs }: Props) => {
     window.location.pathname = "/auth/login";
   };
 
+  const useAxios = makeUseAxios({
+    axios: api,
+  });
   // @ts-ignore
-  return <AuthContext.Provider value={{ isAuthenticated: !!user, configs, categories, user, login, loading, logout }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ isAuthenticated: !!user, useAxios, configs, api, categories, user, login, loading, logout }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);

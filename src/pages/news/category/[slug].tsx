@@ -1,17 +1,9 @@
-import Image from "next/image";
-import { ReactElement, useEffect, useRef } from "react";
+import { ReactElement } from "react";
 import PublicLayout from "@/layouts/public-layout";
 import Banner from "@/components/banner";
 import { AppInterface } from "@/commons/interface/app";
-import Link from "next/link";
-import { urlAsset } from "@/commons/helpers";
-import IconCopy from "@/components/article/icon-copy";
-import CommentParent from "@/components/article/commen-parent";
-import { textHtmlBersih } from "@/commons/helpers/text";
 import SeoLayout from "@/layouts/seo-layout";
-import useAxios from "axios-hooks";
 import axios from "axios";
-import RelatedArticle from "@/components/article/related-article";
 import { NextPageWithLayout } from "@/pages/_app";
 import { useRouter } from "next/router";
 import CalenderArchive from "@/components/article/calender-archive";

@@ -9,7 +9,6 @@ import { NextPageWithLayout } from "../_app";
 import IconCopy from "@/components/article/icon-copy";
 import { textHtmlBersih } from "@/commons/helpers/text";
 import SeoLayout from "@/layouts/seo-layout";
-import useAxios from "axios-hooks";
 import axios from "axios";
 import RelatedArticle from "@/components/article/related-article";
 import LikeArticle from "@/components/article/like-article";
@@ -18,8 +17,8 @@ import { useAuth } from "@/contexts/auth";
 
 type Props = { article: AppInterface.Article };
 const Home: NextPageWithLayout<Props> = ({ article }) => {
-  // mengambil data commentar
-  const [{ data: commentsData, loading: commentLoading }] = useAxios<{ data: any[] }>(`comment/${article.id}`);
+  const { useAxios } = useAuth();
+
   const [{ data: latestArticles, loading: loadLatest }] = useAxios<AppInterface.Article[]>({
     url: "getlatestNews",
   });
