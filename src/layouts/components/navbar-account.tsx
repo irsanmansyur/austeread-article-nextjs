@@ -1,15 +1,12 @@
-import { UserInfoAtom } from "@/commons/data/layoutAtom";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { BsArrowDownShort } from "react-icons/bs";
-import { useRecoilValue } from "recoil";
-import { deleteCookie } from "cookies-next";
-import useUser from "@/commons/data/user-atom";
+import { useAuth } from "@/contexts/auth";
+import { AppInterface } from "@/commons/interface/app";
 
 export default function NavbarAccount() {
-  const user = useRecoilValue(UserInfoAtom);
+  const { user } = useAuth();
   return (
     <>
       {!user ? (
@@ -17,15 +14,14 @@ export default function NavbarAccount() {
           Sign in
         </Link>
       ) : (
-        <DropdownAcount />
+        <DropdownAcount user={user} />
       )}
     </>
   );
 }
 
-const DropdownAcount = () => {
-  const { reload } = useRouter();
-  const { logoutUser } = useUser();
+const DropdownAcount = ({ user }: { user: AppInterface.User }) => {
+  const { logout } = useAuth();
 
   const htmlRef = useRef<HTMLDivElement>(null);
   const [dropdwonActive, setDropdwonActive] = useState(false);
@@ -49,7 +45,7 @@ const DropdownAcount = () => {
     return (
       <div className="position absolute mt-3 left-1/2 -translate-x-1/2 border bg-white shadow z-10 rounded">
         <div className="flex flex-col">
-          <Link href={"."} className="hover:bg-gray-200 py-2 px-4 text-sm whitespace-nowrap">
+          <Link href={"/user/account"} className="hover:bg-gray-200 py-2 px-4 text-sm whitespace-nowrap">
             Manage Profile
           </Link>
           <Link href={"d"} className="bg-gray-normal  py-2 px-4 text-sm whitespace-nowrap">
@@ -59,8 +55,7 @@ const DropdownAcount = () => {
           <button
             className="hover:bg-gray-200 py-2 px-4 text-sm"
             onClick={(e) => {
-              logoutUser();
-              // reload();
+              logout();
             }}
           >
             Sign Out

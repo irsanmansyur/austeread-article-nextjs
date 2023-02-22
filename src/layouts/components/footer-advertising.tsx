@@ -1,11 +1,9 @@
-import { configsAtom } from "@/commons/data/layoutAtom";
+import { useAuth } from "@/contexts/auth";
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
 import FooterModal from "./footer-modal";
 
 export default function FooterAdvertising() {
-  const configs = useRecoilValue(configsAtom);
-
+  const { configs } = useAuth();
   let [isOpen, setIsOpen] = useState(false);
 
   return (

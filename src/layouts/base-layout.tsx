@@ -40,7 +40,7 @@ export default function BaseLayout({ children }: any) {
     Router.events.on("routeChangeError", (url) => {
       setIsLoading(false);
     });
-  }, [Router]);
+  }, [mainMenu]);
   return (
     <RecoilRoot>
       {isLoading && <Loader />}

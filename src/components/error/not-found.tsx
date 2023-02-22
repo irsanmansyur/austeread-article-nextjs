@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function NotFound({ children }: any) {
@@ -5,7 +6,7 @@ export default function NotFound({ children }: any) {
     <div className="sm:bg-gray-200 py-10 sm:min-h-[70vh] flex items-center">
       <div className="bg-white mx-auto max-w-4xl flex gap-4 flex-col sm:flex-row space-y-7 p-2 py-10">
         <div className="header">
-          <img src="/image/not-found.png" alt="" className="h-[339px] w-full" />
+          <Image width={200} height={200} src="/image/not-found.png" alt="" className="!h-[339px] !w-full" />
         </div>
         <div>
           <h1 className="text-5xl">Page not found</h1>

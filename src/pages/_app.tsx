@@ -2,55 +2,74 @@ import "@/styles/globals.css";
 import { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
-import { AppInterface } from "@/commons/interface/app";
-import axios from "axios";
 import BaseLayout from "@/layouts/base-layout";
+import { AuthProvider } from "@/contexts/auth";
+import Head from "next/head";
+import api from "@/api";
+import { AppInterface } from "@/commons/interface/app";
+import { AxiosError } from "axios";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
+  requiresAuth?: boolean;
+  redirectUnauthenticatedTo?: string;
 };
 
-let configPropsCache: any;
+let configsPropsCache: any;
 let categoriesCache: any;
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
-  configProps: typeof configPropsCache;
+  configs: typeof configsPropsCache;
   categories: typeof categoriesCache;
 };
 
-export default function MyApp({ Component, pageProps, configProps, categories = [] }: AppPropsWithLayout) {
-  configPropsCache = configProps;
+export default function MyApp({ Component, pageProps, configs, categories = [] }: AppPropsWithLayout) {
+  configsPropsCache = configs;
   categoriesCache = categories;
 
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
 
-  const layout = getLayout(<Component {...pageProps} configs={configProps} categories={categories} />);
-  return <BaseLayout>{layout}</BaseLayout>;
+  const layout = getLayout(<Component {...pageProps} configs={configsPropsCache} categories={categoriesCache} />);
+  return (
+    <>
+      {Component.requiresAuth && (
+        <Head>
+          <script
+            // If no token is found, redirect inmediately
+            dangerouslySetInnerHTML={{
+              __html: `if(!document.cookie || document.cookie.indexOf('token') === -1)
+            {location.replace(
+              "/auth/login?next=" +
+                encodeURIComponent(location.pathname + location.search)
+            )}
+            else {document.documentElement.classList.add("render")}`,
+            }}
+          />
+        </Head>
+      )}
+      <AuthProvider categories={categoriesCache} configs={configsPropsCache}>
+        <BaseLayout>{layout}</BaseLayout>
+      </AuthProvider>
+    </>
+  );
 }
 
 MyApp.getInitialProps = async ({ ctx }: any) => {
-  const cookies = ctx.req ? ctx.req.cookies : null;
-  let user = null;
-  if (cookies && cookies.token) {
-    const token = (cookies.token as string).split(".")[1];
-    try {
-      user = JSON.parse(atob(token));
-    } catch (error) {}
-  }
-
-  if (configPropsCache) {
-    return { configProps: configPropsCache, categories: categoriesCache, user };
-  }
-
+  let configs = {},
+    categories = [];
   try {
-    const { data } = await axios.get<{ data: AppInterface.Config }>(process.env.NEXT_PUBLIC_BASE_API + "config");
-    const { data: categories } = await axios.get(process.env.NEXT_PUBLIC_BASE_API + "getAllCategory");
-    configPropsCache = data;
-    categoriesCache = categories;
-
-    return { configProps: data, categories, user };
+    if (!configsPropsCache) {
+      const { data: configsData } = await api.get<{ data: AppInterface.Config }>("config");
+      configs = configsData;
+    }
+    if (!categoriesCache) {
+      const { data: categoriesData } = await api.get("getAllCategory");
+      categories = categoriesData;
+    }
   } catch (error) {
-    return { configProps: {}, categories: [], user };
+    const err = error as AxiosError;
+    console.log("Initial page error : ", err.message);
   }
+  return { configs, categories };
 };

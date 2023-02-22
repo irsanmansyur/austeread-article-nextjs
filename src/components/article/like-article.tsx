@@ -1,14 +1,14 @@
-import useUser from "@/commons/data/user-atom";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AppInterface } from "@/commons/interface/app";
 import useAxios from "axios-hooks";
+import { useAuth } from "@/contexts/auth";
 
 type Props = { article: AppInterface.Article };
 export default function LikeArticle({ article }: Props) {
-  const { user } = useUser();
+  const { user } = useAuth();
   return <>{user ? <LikeArticleIsUser article={article} /> : <LikeArticleNotLogin article={article} />}</>;
 }
 const LikeArticleNotLogin = ({ article }: { article: AppInterface.Article }) => {
@@ -50,7 +50,7 @@ const LikeArticleIsUser = ({ article }: { article: AppInterface.Article }) => {
       setUserLike(data.isLike);
     }
     return () => {};
-  }, [loading]);
+  }, [loading, data]);
 
   useEffect(() => {
     if (!putLoading && putData) {
@@ -58,7 +58,7 @@ const LikeArticleIsUser = ({ article }: { article: AppInterface.Article }) => {
       setUserLike(!userLike);
     }
     return () => {};
-  }, [putLoading]);
+  }, [putLoading, likeCount, putData, userLike]);
   return (
     <div className="inline-flex items-center gap-2 text-gray-600">
       <div

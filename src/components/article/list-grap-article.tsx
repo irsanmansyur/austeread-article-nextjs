@@ -1,11 +1,7 @@
 import useData from "@/commons/data";
-import { scrollInfoAtom } from "@/commons/data/layoutAtom";
-import useOnScreen from "@/commons/hooks";
 import { AppInterface } from "@/commons/interface/app";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
-import { useRecoilValue } from "recoil";
 import ButtonCustom from "../form/button";
 import ArticleCard from "./article-card";
 
@@ -38,7 +34,7 @@ export default function ListGrapArticle({ result: articles, page: pg }: Props) {
       setPenampungArticles([...penampungArticles, ...data.result]);
     }
     return () => {};
-  }, [data]);
+  }, [data, loading, penampungArticles]);
 
   useEffect(() => {
     const articlesSortGroup: AppInterface.Article[][] = [];
@@ -61,7 +57,7 @@ export default function ListGrapArticle({ result: articles, page: pg }: Props) {
     return () => {
       setPenampungArticles([]);
     };
-  }, [articles]);
+  }, [articles, pg]);
   return (
     <>
       <div className={`grid gap-4`} style={{ gridTemplateColumns: `repeat(${colsArticles}, minmax(0, 1fr))` }}>

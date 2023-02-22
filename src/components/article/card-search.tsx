@@ -1,12 +1,14 @@
 import { urlAsset } from "@/commons/helpers";
 import { AppInterface } from "@/commons/interface/app";
+import { imageResponsive } from "@/commons/styles/img";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 export default function CardSearch({ article }: { article: AppInterface.Article }) {
   return (
     <Link href={`/news/${article.id}`} className="flex gap-2 sm:gap-4 flex-col sm:flex-row border-b last:border-b-0 pb-2 sm:pb-4 ">
-      <img className="rounded w-full sm:w-[300px]" src={urlAsset("img/upload/" + article.thumbnail)} alt="Card image" />
+      <Image className="rounded !w-full sm:!w-[300px]" width={300} height={300} style={{ ...imageResponsive }} src={urlAsset("img/upload/" + article.thumbnail)} alt="Card image" />
       <div className="py-4">
         <div className="text-xs pb-2 border-b-2 border-secondary">{`${article.tbl_news_category_name ?? article.tbl_news_category.name} | ${article.createdAt}`}</div>
         <div className="mt-3 font-PublicSansMedium text-base sm:text-[24px]">{article.title}</div>

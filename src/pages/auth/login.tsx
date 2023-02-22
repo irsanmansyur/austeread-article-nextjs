@@ -1,5 +1,4 @@
 import useData from "@/commons/data";
-import useUser from "@/commons/data/user-atom";
 import { AppInterface } from "@/commons/interface/app";
 import { InputCustom } from "@/components/form/InputGroup";
 import SeoLayout from "@/layouts/seo-layout";
@@ -12,9 +11,10 @@ import ButtonCustom from "@/components/form/button";
 import AuthLayout from "@/layouts/auth-layout";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { useAuth } from "@/contexts/auth";
 type Props = {};
 const Page: NextPageWithLayout<Props> = ({ ...props }) => {
-  const { setUser, user } = useUser();
+  const { user, login } = useAuth();
   const { replace } = useRouter();
   const captchaRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
@@ -28,27 +28,16 @@ const Page: NextPageWithLayout<Props> = ({ ...props }) => {
     e.preventDefault();
 
     // @ts-ignore
-    const token = captchaRef?.current?.getValue();
+    const token = captchaRef?.current?.getValue() as string;
     if (!token) return setErrorMessage("Error! You must confirm you are not a robot");
-
     setErrorMessage(undefined);
-
-    postLoginForm("login", { ...data, captcha_token: token, register_method: 1 })
-      .then((res: any) => {
-        if (res.response && res.response.status >= 400) return setErrorMessage(res.response.data.message);
-        setUser(res.data);
-        replace("/");
-      })
-      .catch((e) => {
-        if (e.response && e.response.data?.message) return setErrorMessage(e.message);
-        setErrorMessage(e.message);
-      });
+    login({ email: `${data?.email}`, token, password: `${data?.password}` });
   };
 
   useEffect(() => {
     if (user) replace("/");
     return () => {};
-  }, [user]);
+  }, [user, replace]);
 
   return (
     <SeoLayout title="Login Austeread" descrtiption="Welcome user" className="my-4 w-full sm:max-w-md px-3">

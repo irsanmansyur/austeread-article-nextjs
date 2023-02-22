@@ -1,5 +1,4 @@
 import useData from "@/commons/data";
-import useUser from "@/commons/data/user-atom";
 import { AppInterface } from "@/commons/interface/app";
 import { InputCustom } from "@/components/form/InputGroup";
 import SeoLayout from "@/layouts/seo-layout";
@@ -10,6 +9,7 @@ import { NextPageWithLayout } from "../_app";
 import ReCAPTCHA from "react-google-recaptcha";
 import ButtonCustom from "@/components/form/button";
 import AuthLayout from "@/layouts/auth-layout";
+import Image from "next/image";
 type Props = {};
 const Page: NextPageWithLayout<Props> = ({ ...props }) => {
   const { post: postLoginForm, loading: loadingLogin } = useData<{ email?: string; fullname?: string; password?: string; message?: string }>();
@@ -34,7 +34,7 @@ const Page: NextPageWithLayout<Props> = ({ ...props }) => {
     <SeoLayout title="Register Account Austeread" descrtiption="Register Account Austeread" className="my-4 w-full sm:max-w-md px-3">
       <div className="header flex items-center flex-col gap-3">
         <Link href="/" className="flex items-center mb-10 text-primary">
-          <img className="" src="/icons/logo.austeread.gif" width="60px" />
+          <Image width={60} height={60} alt="logo" style={{ width: "auto", height: "auto" }} className="!w-[60px]" src="/icons/logo.austeread.gif" />
           <span className="font-GarnettLight text-[29px]">auste</span>
           <span className="font-GarnettMedium text-[29px]">read</span>
         </Link>

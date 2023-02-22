@@ -8,16 +8,10 @@ import { configsAtom, kategoriesAtom } from "@/commons/data/layoutAtom";
 import Image from "next/image";
 import { useEffect } from "react";
 import SosmedIcon from "@/components/sosmed-icon";
+import { useAuth } from "@/contexts/auth";
 
-export default function Footer({ configs, categories }: any) {
-  const setCategories = useSetRecoilState(kategoriesAtom);
-  const setConfigs = useSetRecoilState(configsAtom);
-  useEffect(() => {
-    if (configs) setConfigs(configs);
-    if (categories) setCategories(categories);
-
-    return () => {};
-  }, []);
+export default function Footer({ configs: a, categories: as }: any) {
+  const { configs } = useAuth();
 
   return (
     <footer className="bg-black text-light py-12 font-PublicSansRegular">

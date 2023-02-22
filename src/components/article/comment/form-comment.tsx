@@ -1,6 +1,6 @@
-import useUser from "@/commons/data/user-atom";
 import { AppInterface } from "@/commons/interface/app";
 import InputError from "@/components/form/InputError";
+import { useAuth } from "@/contexts/auth";
 import useAxios, { RefetchFunction } from "axios-hooks";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -17,7 +17,7 @@ export default function FormComment({ article, reFetchComments }: Props) {
   });
   const [errorsForm, setErrorsForm] = useState<{ comment?: string }>({ comment: undefined });
   const { push } = useRouter();
-  const { user } = useUser();
+  const { user } = useAuth();
   const [{ loading, data }, postComment] = useAxios({ url: "comment", method: "post" }, { manual: true });
   const handleSubmit = (e: React.FormEvent) => {
     setErrorsForm({ comment: undefined });

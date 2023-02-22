@@ -1,15 +1,11 @@
-import { configsAtom, kategoriesAtom, UserInfoAtom } from "@/commons/data/layoutAtom";
-import useUser from "@/commons/data/user-atom";
 import SosmedIcon from "@/components/sosmed-icon";
+import { useAuth } from "@/contexts/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { useRecoilValue } from "recoil";
 
 export default function NavbarMenu({ show, setShow }: any) {
-  const configs = useRecoilValue(configsAtom);
-  const user = useRecoilValue(UserInfoAtom);
-  const kategories = useRecoilValue(kategoriesAtom);
+  const { user, configs, categories: kategories } = useAuth();
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -25,7 +21,7 @@ export default function NavbarMenu({ show, setShow }: any) {
       // Unbind the event listener on clean up
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [sidebarRef]);
+  }, [sidebarRef, setShow]);
   return (
     <>
       <div className={`absolute transform duration-300 ease-in-out inset-0 h-full !z-[50] ${!show ? "translate-x-full" : ""}`}>
